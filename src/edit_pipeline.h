@@ -70,7 +70,7 @@ struct EditRequest
     std::string controlnet_path;
     float control_scale = 1.f;
     int batch = 1;
-    uint64_t seed = 42;
+    uint64_t seed = 0;
 };
 
 struct EditTimings

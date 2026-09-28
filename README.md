@@ -185,7 +185,7 @@ Usage: qwenimage-ncnn-vulkan [options]...
   --lora-scale value   LoRA strength (default=1.0)
   -s image-size        image resolution (default=1024,1024)
   -l steps             denoise steps (default=40)
-  -r random-seed       random seed (default=42)
+  -r random-seed       random seed (default=rand)
   -m model-path        qwen-image model path (default=models/qwenimage21)
   -g gpu-id            GPU device to use (-1=cpu, default=auto)
   -b batch-size        batched generation (default=1)

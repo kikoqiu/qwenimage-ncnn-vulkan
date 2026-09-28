@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 #include <stdint.h>
 #include <errno.h>
@@ -82,7 +83,7 @@ static void print_help()
     fprintf(stdout, "  -i input-image       reference image for editing (repeat 1 to 10 times)\n");
     fprintf(stdout, "  -s image-size        image resolution (default=1024,1024)\n");
     fprintf(stdout, "  -l steps             denoise steps (default=40)\n");
-    fprintf(stdout, "  -r random-seed       random seed (default=42)\n");
+    fprintf(stdout, "  -r random-seed       random seed (default=rand)\n");
     fprintf(stdout, "  -m model-path        qwen-image model path (default=models/qwenimage21)\n");
     fprintf(stdout, "  -g gpu-id            GPU device to use (-1=cpu, default=auto)\n");
     fprintf(stdout, "  -b batch-size        batched generation (default=1)\n");
@@ -125,6 +126,8 @@ int main(int argc, char** argv)
     GenerateRequest request;
     request.prompt = "A half-length portrait in the warm light of a convenience store late at night. An East Asian beauty, holding milk, meets your gaze in front of the freezer.";
     request.output = "out.png";
+    srand((unsigned int)time(NULL));
+    request.seed = (unsigned int)rand();
     RuntimeConfig config;
     const int gpu_id_auto = 233;
     int gpu_id = gpu_id_auto;
