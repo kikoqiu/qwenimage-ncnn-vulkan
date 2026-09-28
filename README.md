@@ -123,6 +123,22 @@ Image editing
 qwenimage-ncnn-vulkan -i input.png -p "Change the clothes to a blue jacket." -o output.png
 ```
 
+Load a safetensors LoRA, including PEFT `lora_A` / `lora_B` adapters
+
+```shell
+qwenimage-ncnn-vulkan --lora qwen-image-style.safetensors --lora-scale 0.8 -p "A red flower." -o output.png
+```
+
+Some Qwen Fun Acc adapters use a fixed step schedule. For example, the 4-step adapter requires `-l 4`.
+
+ControlNet generation
+
+```shell
+qwenimage-ncnn-vulkan -c control.png --control-scale 1.0 -p "A red flower." -o output.png
+```
+
+When `-c` is used, ControlNet loads by default from `<model-path>/controlnet/controlnet.ncnn.param` and its matching `.bin` file; `--controlnet` can override the model path. ControlNet can also be combined with `-i` image editing and a LoRA. The model can be used with Canny, depth, grayscale, HED, lineart, MLSD, pose and scribble condition images.
+
 Multiple reference images
 
 ```shell
@@ -154,14 +170,19 @@ The default output is an RGBA PNG. A jpg or jpeg suffix writes RGB JPEG output, 
 ### Full Usages
 
 ```console
-Usage: qwenimage-ncnn-vulkan -p prompt -o outfile [options]...
+Usage: qwenimage-ncnn-vulkan [options]...
 
   -h                   show this help
-  -p prompt            prompt
+  -p prompt            prompt (default=A half-length portrait in the warm light of a convenience store late at night. An East Asian beauty, holding milk, meets your gaze in front of the freezer.)
   -n negative-prompt   negative prompt (optional)
   -w guidance-scale    true CFG scale (default=1.0)
   -o output-path       output image path (default=out.png)
   -i input-image       reference image for editing (repeat 1 to 10 times)
+  -c control-image     ControlNet condition image (optional)
+  --controlnet path    override default ControlNet model path (optional)
+  --control-scale val  ControlNet strength (default=1.0)
+  --lora path          LoRA or Qwen Fun Acc safetensors adapter (optional)
+  --lora-scale value   LoRA strength (default=1.0)
   -s image-size        image resolution (default=1024,1024)
   -l steps             denoise steps (default=40)
   -r random-seed       random seed (default=42)
